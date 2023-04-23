@@ -11,11 +11,16 @@ turtle.setup(1024,768)
 
 turtle.addshape("gameimage.gif")
 turtle.shape("gameimage.gif")
-#dicttt=[]
+dicttt=[]
 GameON=True
 counter=0
-
+flag=False
+turtleerror=turtle.Turtle()
+turtleerror.penup()
+turtleerror.hideturtle()
+turtleerror.goto(-150, 200)
 while GameON:
+
     if ugadano==0:
         text=f"Введи закрашеные города"
     else:
@@ -26,14 +31,21 @@ while GameON:
     if dataobj.empty:
         pass
     else:
-        answertext=turtle.Turtle()
-        answertext.hideturtle()
-        answertext.penup()
-        answertext.goto(dataobj.iloc[0,1],dataobj.iloc[0,2]-10)
-        answertext.write(dataobj.iloc[0,0], align="left", font=("Arial", 12, "normal"))
-        ugadano+=1
-        if ugadano==3:
-            GameON=False
+        if dataobj["state"].item() in dicttt:
+            flag=True
+            turtleerror.write(f"УЖЕ ЭТО ВВОДИЛ:\n{answer}", font=("Arial", 35, "bold"))
+            continue
+        else:
+            turtleerror.clear()
+            dicttt.append(dataobj["state"].item())
+            answertext=turtle.Turtle()
+            answertext.hideturtle()
+            answertext.penup()
+            answertext.goto(dataobj.iloc[0,1],dataobj.iloc[0,2]-10)
+            answertext.write(dataobj.iloc[0,0], align="left", font=("Arial", 12, "normal"))
+            ugadano+=1
+            if ugadano==3:
+                GameON=False
 
 
 
